@@ -1,0 +1,32 @@
+﻿{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "properties": {
+    "zip": {
+      "type": "string",
+      "description": "Specified zip/post code in the API request"
+    },
+    "name": {
+      "type": "string",
+      "description": "Name of the found area"
+    },
+    "lat": {
+      "type": "number",
+      "description": "Geographical coordinates of the centroid of found zip/post code (latitude)",
+      "minimum": -90,
+      "maximum": 90
+    },
+    "lon": {
+      "type": "number",
+      "description": "Geographical coordinates of the centroid of found zip/post code (longitude)",
+      "minimum": -180,
+      "maximum": 180
+    },
+    "country": {
+      "type": "string",
+      "description": "Country code (ISO 3166-1 alpha-2)",
+      "pattern": "^[A-Z]{2}$"
+    }
+  },
+  "required": ["zip", "name", "lat", "lon", "country"]
+}

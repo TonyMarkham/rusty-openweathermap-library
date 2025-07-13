@@ -1,0 +1,40 @@
+﻿{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "properties": {
+    "temp": {
+      "type": "number",
+      "description": "Temperature. Unit Default: Kelvin, Metric: Celsius, Imperial: Fahrenheit"
+    },
+    "feels_like": {
+      "type": "number",
+      "description": "Temperature. This temperature parameter accounts for the human perception of weather. Unit Default: Kelvin, Metric: Celsius, Imperial: Fahrenheit"
+    },
+    "temp_min": {
+      "type": "number",
+      "description": "Minimum temperature at the moment. This is minimal currently observed temperature (within large megalopolises and urban areas). Unit Default: Kelvin, Metric: Celsius, Imperial: Fahrenheit. Please find more info here: https://openweathermap.org/current#min"
+    },
+    "temp_max": {
+      "type": "number",
+      "description": "Maximum temperature at the moment. This is maximal currently observed temperature (within large megalopolises and urban areas). Unit Default: Kelvin, Metric: Celsius, Imperial: Fahrenheit. Please find more info here: https://openweathermap.org/current#min"
+    },
+    "pressure": {
+      "type": "integer",
+      "description": "Atmospheric pressure on the sea level, hPa"
+    },
+    "humidity": {
+      "type": "integer",
+      "description": "Humidity, %",
+      "minimum": 0,
+      "maximum": 100
+    },
+    "sea_level": {
+      "type": "integer",
+      "description": "Atmospheric pressure on the sea level, hPa"
+    },
+    "grnd_level": {
+      "type": "integer",
+      "description": "Atmospheric pressure on the ground level, hPa"
+    }
+  }
+}

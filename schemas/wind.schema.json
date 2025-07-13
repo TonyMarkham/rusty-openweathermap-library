@@ -1,0 +1,22 @@
+﻿{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "properties": {
+    "speed": {
+      "type": "number",
+      "description": "Wind speed. Unit Default: meter/sec, Metric: meter/sec, Imperial: miles/hour",
+      "minimum": 0
+    },
+    "deg": {
+      "type": "integer",
+      "description": "Wind direction, degrees (meteorological)",
+      "minimum": 0,
+      "maximum": 360
+    },
+    "gust": {
+      "type": "integer",
+      "description": "Wind gust. Unit Default: meter/sec, Metric: meter/sec, Imperial: miles/hour",
+      "minimum": 0
+    }
+  }
+}

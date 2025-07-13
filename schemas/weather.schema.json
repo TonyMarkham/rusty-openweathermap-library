@@ -1,0 +1,23 @@
+﻿{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "properties": {
+    "id": {
+      "type": "integer",
+      "description": "Weather condition ID"
+    },
+    "main": {
+      "type": "string",
+      "description": "Group of weather parameters (Rain, Snow, Clouds etc.)"
+    },
+    "description": {
+      "type": "string",
+      "description": "Weather condition within the group. Please find more https://openweathermap.org/current#list. You can get the output in your language. Learn more: https://openweathermap.org/current#multi"
+    },
+    "icon": {
+      "type": "string",
+      "description": "Weather icon id"
+    }
+  },
+  "required": ["id", "main", "description", "icon"]
+}

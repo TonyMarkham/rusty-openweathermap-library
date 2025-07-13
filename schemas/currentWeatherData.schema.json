@@ -1,0 +1,57 @@
+﻿{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "properties": {
+    "coord": {
+      "$ref": "./coord.schema.json"
+    },
+    "weather": {
+      "type": "array",
+      "items": {
+        "$ref": "./weather.schema.json"
+      }
+    },
+    "base": {
+      "type": "string",
+      "description": "Internal parameter"
+    },
+    "main": {
+      "$ref": "./main.schema.json"
+    },
+    "visibility": {
+      "type": "integer",
+      "description": "Visibility, meter. The maximum value of the visibility is 10 km",
+      "minimum": 0
+    },
+    "wind": {
+      "$ref": "./wind.schema.json"
+    },
+    "clouds": {
+      "$ref": "./clouds.schema.json"
+    },
+    "dt": {
+      "type": "integer",
+      "description": "Time of data calculation, unix, UTC"
+    },
+    "sys": {
+      "$ref": "./sys.schema.json"
+    },
+    "timezone": {
+      "type": "integer",
+      "description": "Shift in seconds from UTC"
+    },
+    "id": {
+      "type": "integer",
+      "description": "City ID. Please note that built-in geocoder functionality has been deprecated. Learn more https://openweathermap.org/current#builtin"
+    },
+    "name": {
+      "type": "string",
+      "description": " City name. Please note that built-in geocoder functionality has been deprecated. Learn more https://openweathermap.org/current#builtin"
+    },
+    "cod": {
+      "type": "integer",
+      "description": "Internal parameter"
+    }
+  },
+  "required": ["coord", "weather", "base", "main", "visibility", "wind", "clouds", "dt", "sys", "timezone", "id", "name", "cod"]
+}

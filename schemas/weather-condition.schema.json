@@ -1,0 +1,23 @@
+﻿{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "properties": {
+    "id": {
+      "type": "integer",
+      "description": "Weather condition ID"
+    },
+    "name": {
+      "type": "string",
+      "description": "Name of the Weather condition"
+    },
+    "description": {
+      "type": "string",
+      "description": "Weather condition description"
+    },
+    "icon": {
+      "type": "string",
+      "description": "Weather icon ID"
+    }
+  },
+  "required": ["id", "name", "description", "icon"]
+}
