@@ -670,7 +670,7 @@ dependencies = [
 
 [[package]]
 name = "openweathermap_lib"
-version = "0.1.0"
+version = "0.1.0-pre.1"
 dependencies = [
  "reqwest",
  "serde",
