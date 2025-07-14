@@ -14,9 +14,10 @@
       "maximum": 360
     },
     "gust": {
-      "type": "integer",
+      "type": "number",
       "description": "Wind gust. Unit Default: meter/sec, Metric: meter/sec, Imperial: miles/hour",
       "minimum": 0
     }
-  }
+  },
+  "required": ["speed", "deg"]
 }

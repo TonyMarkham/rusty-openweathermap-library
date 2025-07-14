@@ -21,7 +21,7 @@
     },
     "sunset": {
       "type": "integer",
-      "description": " Sunset time, unix, UTC"
+      "description": "Sunset time, unix, UTC"
     }
   },
   "required": ["type", "id", "country", "sunrise", "sunset"]

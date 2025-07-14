@@ -15,5 +15,5 @@
       "maximum": 90
     }
   },
-  "required": ["All"]
+  "required": ["lon", "lat"]
 }

@@ -4,6 +4,17 @@
 
 const GEOCODING_API_BASE_URL: &str = "https://api.openweathermap.org/geo/1.0/zip";
 
+/// A client for accessing location data via a geocoding API using a zip code and country code.
+///
+/// This struct encapsulates an HTTP client and required parameters such as the zip code,
+/// country code, and API key. It provides methods to update these parameters and an async
+/// method to fetch location information from the remote API.
+///
+/// # Fields
+/// - `client`: The HTTP client used to send requests.
+/// - `api_key`: API key for authenticating requests.
+/// - `zip`: Zip code for the location query.
+/// - `country`: Country code for the location query.
 pub struct LocationClient {
     client: reqwest::Client,
     api_key: String,

@@ -1,6 +1,22 @@
 ﻿use serde::{Deserialize, Serialize};
 use std::fmt;
 
+/// Represents a geographical location identified by postal code.
+///
+/// Contains essential information about the location including the postal code (`zip`),
+/// the name of the city or locality, its latitude and longitude coordinates,
+/// and the associated country represented by its ISO 3166-1 alpha-2 country code.
+///
+/// Sample JSON
+/// ```json
+/// {
+///     "zip": "N7L",
+///     "name": "Chatham",
+///     "lat": 42.4209,
+///     "lon": -82.1993,
+///     "country": "CA"
+/// }
+/// ```
 #[derive(Debug, Serialize, Deserialize, Clone)]
 pub struct Location {
     /// ZIP or postal code
