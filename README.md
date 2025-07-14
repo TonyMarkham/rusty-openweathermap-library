@@ -1,13 +1,13 @@
-# openweathermap_lib
+﻿# OpenWeatherMap Rust Library
 
-A Rust library for interacting with the OpenWeatherMap API, supporting both native and WebAssembly targets.
+A Rust library for interacting with the OpenWeatherMap API. This library supports both native Rust applications and WebAssembly targets.
 
 ## Features
 
 - Current weather data retrieval
 - Location-based weather lookups
 - Fully typed API responses
-- WebAssembly support
+- WebAssembly compatibility
 
 ## Installation
 
@@ -15,7 +15,7 @@ Add this to your `Cargo.toml`:
 
 ```toml
 [dependencies]
-openweathermap_lib = "0.1.0"
+openweathermap_lib = "0.1.0-pre.2"
 ```
 
 ## Usage
@@ -39,9 +39,54 @@ async fn example() {
 }
 ```
 
-## WebAssembly Usage
+## Project Structure
 
-This library also supports WebAssembly for use in browser environments.
+```
+.
+├── src/                  # Source code
+│   ├── lib.rs            # Library entry point
+│   ├── weather/          # Weather-related functionality
+│   └── location/         # Location-related functionality
+├── schemas/              # JSON schemas
+├── Cargo.toml            # Rust package manifest
+├── Cargo.lock            # Dependency lock file
+├── LICENSE               # MIT License
+└── CONTRIBUTING.md       # Contribution guidelines
+```
+
+## Cloning the Repository
+
+To clone this repository, run the following command:
+
+```bash
+git clone https://github.com/tonymarkham/rusty-openweathermap-library.git
+cd rusty-openweathermap-library
+```
+
+## Building
+
+### Native Rust
+
+```bash
+cargo build --release
+```
+
+### WebAssembly
+
+Ensure you have wasm-pack installed:
+
+```bash
+cargo install wasm-pack
+wasm-pack build --target web
+```
+
+## Dependencies
+
+- reqwest 0.12.22
+- serde 1.0.219
+- serde_json 1.0.140
+- wasm-bindgen 0.2.100
+- wasm-bindgen-futures 0.4.50
 
 ## License
 
@@ -49,4 +94,8 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ## Contributing
 
-Contributions are welcome! Please feel free to submit a Pull Request.
+Contributions are welcome! Please see [CONTRIBUTING.md](CONTRIBUTING.md) for details on how to contribute to this project.
+
+## Author
+
+- Tony Markham
