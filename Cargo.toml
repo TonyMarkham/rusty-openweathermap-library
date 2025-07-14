@@ -1,6 +1,6 @@
 [package]
 name = "openweathermap_lib"
-version = "0.1.0-pre.2"
+version = "0.1.0-pre.3"
 edition = "2021"
 authors = ["Tony Markham"]
 description = "A Rust library for interacting with the OpenWeatherMap API"
