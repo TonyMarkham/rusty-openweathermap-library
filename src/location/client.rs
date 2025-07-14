@@ -79,3 +79,90 @@ impl LocationClient {
         )
     }
 }
+
+// TESTING
+
+#[cfg(test)]
+use mockall::automock;
+
+#[cfg(test)]
+use async_trait::async_trait;
+
+
+
+/// A trait for location client operations to enable mocking
+#[cfg(test)]
+#[async_trait]
+#[automock]
+pub trait LocationClientTrait {
+    async fn get_location(&self) -> Result<Location, Box<dyn std::error::Error>>;
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    use mockall::predicate::*;
+
+    const TEST_ZIP: &str = "N7L";
+    const TEST_NAME: &str = "Chatham";
+    const TEST_COUNTRY: &str = "CA";
+    const TEST_LAT: f64 = 43.6532;
+    const TEST_LON: f64 = -79.3832;
+
+    #[tokio::test]
+    async fn test_get_location_success() {
+        // Create a mock instance
+        let mut mock_client = MockLocationClientTrait::new();
+
+        // Create expected Location data (you'll need to adjust this based on your Location struct)
+        let expected_location = Location {
+            zip: TEST_ZIP.to_string(),
+            name: TEST_NAME.to_string(),
+            lat: TEST_LAT,
+            lon: TEST_LON,
+            country: TEST_COUNTRY.to_string(),
+        };
+
+        // Set up the mock expectation
+        mock_client
+            .expect_get_location()
+            .times(1)
+            .returning(move || {
+                let expected_location = expected_location.clone();
+                Box::pin(async move { Ok(expected_location) })
+            });
+
+        // Call the method and verify the result
+        let result = mock_client.get_location().await;
+
+        assert!(result.is_ok());
+
+        let location = result.unwrap();
+
+        assert_eq!(location.zip, TEST_ZIP);
+        assert_eq!(location.name, TEST_NAME);
+        assert_eq!(location.lat, TEST_LAT);
+        assert_eq!(location.lon, TEST_LON);
+        assert_eq!(location.country, TEST_COUNTRY);
+    }
+
+    #[tokio::test]
+    async fn test_get_location_failure() {
+        // Create a mock instance
+        let mut mock_client = MockLocationClientTrait::new();
+
+        // Set up the mock to return an error
+        mock_client
+            .expect_get_location()
+            .times(1)
+            .returning(|| Box::pin(async move { Err("API request failed".into()) }));
+
+        // Call the method and verify it returns an error
+        let result = mock_client.get_location().await;
+
+        assert!(result.is_err());
+        let error = result.unwrap_err();
+        assert_eq!(error.to_string(), "API request failed");
+    }
+}
+
