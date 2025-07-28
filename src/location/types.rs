@@ -1,4 +1,4 @@
-﻿use serde::{Deserialize, Serialize};
+use serde::{Deserialize, Serialize};
 use std::fmt;
 
 /// Represents a geographical location identified by postal code.
@@ -33,7 +33,10 @@ pub struct Location {
 
 impl fmt::Display for Location {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
-        write!(f, "name: [{}]\ncountry: [{}]\nzip: [{}]\nlat: [{}]\nlon: [{}]",
-               self.name, self.country, self.zip, self.lat, self.lon)
+        write!(
+            f,
+            "name: [{}]\ncountry: [{}]\nzip: [{}]\nlat: [{}]\nlon: [{}]",
+            self.name, self.country, self.zip, self.lat, self.lon
+        )
     }
 }

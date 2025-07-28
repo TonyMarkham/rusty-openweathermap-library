@@ -1,8 +1,10 @@
-﻿use serde::{Deserialize, Serialize};
-use wasm_bindgen::JsValue;
-use wasm_bindgen::prelude::wasm_bindgen;
-use crate::location::{Location, LocationClient};
+﻿use crate::location::{Location, LocationClient};
 use crate::weather::WeatherClient;
+use serde::{Deserialize, Serialize};
+#[cfg(target_arch = "wasm32")]
+use wasm_bindgen::prelude::wasm_bindgen;
+#[cfg(target_arch = "wasm32")]
+use wasm_bindgen::JsValue;
 
 // region: Coord
 
@@ -126,14 +128,32 @@ pub struct Main {
 }
 
 impl Main {
-    pub fn new(temp: Option<f64>, feels_like: Option<f64>, temp_min: Option<f64>, temp_max: Option<f64>, pressure: Option<i32>, humidity: Option<i32>, sea_level: Option<i32>, grnd_level: Option<i32>) -> Result<Self, String> {
+    pub fn new(
+        temp: Option<f64>,
+        feels_like: Option<f64>,
+        temp_min: Option<f64>,
+        temp_max: Option<f64>,
+        pressure: Option<i32>,
+        humidity: Option<i32>,
+        sea_level: Option<i32>,
+        grnd_level: Option<i32>,
+    ) -> Result<Self, String> {
         if let Some(humidity_value) = humidity {
             if humidity_value < 0 || humidity_value > 100 {
                 return Err("Humidity must be between 0 and 100 percent".to_string());
             }
         }
 
-        Ok(Main { temp, feels_like, temp_min, temp_max, pressure, humidity, sea_level, grnd_level })
+        Ok(Main {
+            temp,
+            feels_like,
+            temp_min,
+            temp_max,
+            pressure,
+            humidity,
+            sea_level,
+            grnd_level,
+        })
     }
 }
 
@@ -260,10 +280,18 @@ pub struct Sys {
 }
 
 impl Sys {
-    pub fn new(sys_type: i32, id: i32, country: String, sunrise: i64, sunset: i64) -> Result<Self, String> {
+    pub fn new(
+        sys_type: i32,
+        id: i32,
+        country: String,
+        sunrise: i64,
+        sunset: i64,
+    ) -> Result<Self, String> {
         // Validate country code format (ISO 3166-1 alpha-2)
         if !country.chars().all(|c| c.is_ascii_uppercase()) || country.len() != 2 {
-            return Err("Country code must be exactly 2 uppercase letters (ISO 3166-1 alpha-2)".to_string());
+            return Err(
+                "Country code must be exactly 2 uppercase letters (ISO 3166-1 alpha-2)".to_string(),
+            );
         }
 
         Ok(Sys {
@@ -394,18 +422,33 @@ impl WeatherResponse {
         timezone: i32,
         id: i64,
         name: String,
-        cod: i64) -> Result<Self, String> {
+        cod: i64,
+    ) -> Result<Self, String> {
         // Validate Visibility
         if visibility < 0 {
             return Err("Visibility must never be less than 0.".to_string());
         }
 
-        Ok(WeatherResponse { coord, weather, base, main, visibility, wind, clouds, dt, sys, timezone, id, name, cod })
+        Ok(WeatherResponse {
+            coord,
+            weather,
+            base,
+            main,
+            visibility,
+            wind,
+            clouds,
+            dt,
+            sys,
+            timezone,
+            id,
+            name,
+            cod,
+        })
     }
 
     pub fn detailed_display(&self, units: String) -> String {
         // Temperature
-        let mut temp_display : String = "".to_string();
+        let mut temp_display: String = "".to_string();
         if let Some(temp_value) = &self.main.temp {
             temp_display = get_temperature_display(temp_value, &units);
         }
@@ -463,12 +506,14 @@ fn get_speed_display(speed: f64, units: &str) -> String {
     }
 }
 
+#[cfg(target_arch = "wasm32")]
 #[wasm_bindgen]
 extern "C" {
     #[wasm_bindgen(js_namespace = console)]
     fn log(s: &str);
 }
 
+#[cfg(target_arch = "wasm32")]
 macro_rules! console_log {
     ($($t:tt)*) => (log(&format_args!($($t)*).to_string()))
 }
@@ -488,15 +533,15 @@ pub struct WeatherResponseWasm {
     pub error: Option<String>,
 }
 
+#[cfg(target_arch = "wasm32")]
 #[wasm_bindgen]
 pub async fn get_weather_data(request_json: &str) -> Result<String, JsValue> {
     console_log!("WASM function called with: {}", request_json);
 
-    let request: WeatherRequestWasm = serde_json::from_str(request_json)
-        .map_err(|e| {
-            console_log!("JSON parse error: {}", e);
-            JsValue::from_str(&format!("Invalid request: {}", e))
-        })?;
+    let request: WeatherRequestWasm = serde_json::from_str(request_json).map_err(|e| {
+        console_log!("JSON parse error: {}", e);
+        JsValue::from_str(&format!("Invalid request: {}", e))
+    })?;
 
     console_log!("Parsed request: {:?}", request);
 
@@ -525,17 +570,21 @@ pub async fn get_weather_data(request_json: &str) -> Result<String, JsValue> {
     }
 }
 
-async fn fetch_weather_internal(request: WeatherRequestWasm) -> Result<WeatherResponseWasm, String> {
+#[cfg(target_arch = "wasm32")]
+async fn fetch_weather_internal(
+    request: WeatherRequestWasm,
+) -> Result<WeatherResponseWasm, String> {
     console_log!("Creating location client");
     console_log!("Fetching location");
 
     let location = LocationClient::new(
         request.zip.clone(),
         request.country.clone(),
-        request.api_key.clone(), )
-        .get_location()
-        .await
-        .map_err(|e| format!("Location error: {}", e))?;
+        request.api_key.clone(),
+    )
+    .get_location()
+    .await
+    .map_err(|e| format!("Location error: {}", e))?;
 
     console_log!("Location found: {:?}", location);
     console_log!("Fetching weather");
@@ -543,10 +592,11 @@ async fn fetch_weather_internal(request: WeatherRequestWasm) -> Result<WeatherRe
     let weather_response = WeatherClient::new(
         location.clone(),
         request.units.clone(),
-        request.api_key.clone(), )
-        .get_current_weather()
-        .await
-        .map_err(|e| format!("Weather error: {}", e))?;
+        request.api_key.clone(),
+    )
+    .get_current_weather()
+    .await
+    .map_err(|e| format!("Weather error: {}", e))?;
 
     console_log!("Weather fetch complete");
 

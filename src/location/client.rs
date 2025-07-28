@@ -1,4 +1,4 @@
-﻿use super::types::Location;
+use super::types::Location;
 
 // https://api.openweathermap.org/geo/1.0/zip?zip=N7L,CA&appid={api_key}
 
@@ -31,36 +31,34 @@ impl LocationClient {
             api_key,
         }
     }
-    
-    pub fn set_zip(&mut self, zip: String){
+
+    pub fn set_zip(&mut self, zip: String) {
         self.zip = zip;
     }
-    
+
     pub fn get_zip(&self) -> String {
         self.zip.clone()
     }
 
-    pub fn set_country(&mut self, country: String){
+    pub fn set_country(&mut self, country: String) {
         self.country = country;
     }
-    
+
     pub fn get_country(&self) -> String {
         self.country.clone()
     }
 
-    pub fn set_api_key(&mut self, api_key: String){
+    pub fn set_api_key(&mut self, api_key: String) {
         self.api_key = api_key;
     }
 
     pub async fn get_location(&self) -> Result<Location, Box<dyn std::error::Error>> {
         let zip = format!("{},{}", &self.zip, &self.country);
 
-        let response = self.client
+        let response = self
+            .client
             .get(GEOCODING_API_BASE_URL)
-            .query(&[
-                ("zip", &zip),
-                ("appid", &self.api_key)
-            ])
+            .query(&[("zip", &zip), ("appid", &self.api_key)])
             .send()
             .await?;
 
@@ -72,10 +70,6 @@ impl LocationClient {
     }
 
     pub fn detailed_display(&self) -> String {
-        format!(
-            r#"country: [{}] - zip: [{}]"#,
-            self.country,
-            self.zip,
-        )
+        format!(r#"country: [{}] - zip: [{}]"#, self.country, self.zip,)
     }
 }
